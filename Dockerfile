@@ -1,4 +1,6 @@
-FROM quay.io/coreos/etcd
+FROM golang:wheezy
+
+RUN go get -u -v -t github.com/coreos/etcd/...
 
 RUN go get -u -v -t github.com/tleyden/etcd-discovery/...
 
