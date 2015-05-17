@@ -1,7 +1,6 @@
 package etcdisco
 
 import (
-	"log"
 	"strings"
 	"testing"
 
@@ -26,7 +25,6 @@ func TestTransformArgs(t *testing.T) {
 	bindings := map[string]string{
 		LOCAL_IP: fakeLocalIp,
 	}
-	log.Printf("bindings: %+v", bindings)
 
 	args := []string{
 		"-listen-client-urls",
@@ -35,7 +33,7 @@ func TestTransformArgs(t *testing.T) {
 		"http://{{.LOCAL_IP}}:2379",
 	}
 
-	tranformedArgs, err := tranformArgs(args, bindings)
+	tranformedArgs, err := transformArgs(args, bindings)
 	assert.True(t, err == nil)
 	assert.Equals(t, len(tranformedArgs), len(args))
 	lastArgWithLocalIp := tranformedArgs[3]

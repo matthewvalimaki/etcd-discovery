@@ -36,7 +36,7 @@ func RunWrappedEtcd() {
 	}
 
 	// get a slice with post-transformation arguments
-	transformedArgs, err := tranformArgs(args, bindings)
+	transformedArgs, err := transformArgs(args, bindings)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -49,18 +49,15 @@ func RunWrappedEtcd() {
 
 }
 
-func tranformArgs(args []string, bindings map[string]string) (transformed []string, err error) {
+func transformArgs(args []string, bindings map[string]string) (transformed []string, err error) {
 
-	log.Printf("transform args called with args: %v bindings: %v", args, bindings)
 	// loop over args
 	for _, arg := range args {
 
 		// loop over bindings
 		for bindingKey, bindingVal := range bindings {
 			// does the argument contain bindingKey?
-			log.Printf("does %v contain %v?", arg, bindingKey)
 			if strings.Contains(arg, bindingKey) {
-				log.Printf("yes, %v contain %v", arg, bindingKey)
 				// perform transformation
 				transformedArg, err := transformArg(arg, bindingKey, bindingVal)
 				if err != nil {
@@ -71,14 +68,12 @@ func tranformArgs(args []string, bindings map[string]string) (transformed []stri
 				transformed = append(transformed, transformedArg)
 
 			} else {
-				log.Printf("no, %v does not contain %v", arg, bindingKey)
 				// no transformation necessary, just add it to output slice
 				transformed = append(transformed, arg)
 			}
 		}
 
 	}
-	log.Printf("transform args returning: %v", transformed)
 
 	return transformed, nil
 }
