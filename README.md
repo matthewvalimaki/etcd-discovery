@@ -27,4 +27,9 @@ This would have the effect of:
 * it will invoke etcd with the modified command line args
 
 
+## Supported variables
+
+Variable  | Description
+------------- | -------------
+LOCAL_IP  | It iterates over all interfaces and returns the IP address of the first non-loopback IP address
 
