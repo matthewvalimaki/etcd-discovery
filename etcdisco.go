@@ -108,10 +108,12 @@ func transformArg(arg, bindingKey, bindingVal string) (string, error) {
 
 func discoverBindings() (bindings map[string]string, err error) {
 
+	bindings = map[string]string{}
 	localIp, err := discoverLocalIp()
 	if err != nil {
 		return bindings, err
 	}
+	log.Printf("localIp: %v", localIp)
 	bindings[LOCAL_IP] = localIp
 	return bindings, nil
 }
