@@ -25,6 +25,7 @@ func RunWrappedEtcd() {
 
 	// get the arguments except for the target binary
 	args := os.Args[1:]
+	log.Printf("Original args: %v", args)
 
 	// discover the bindings between variables and their
 	// actual values (will be a map with things like local-ip -> 10.1.50.5)
@@ -133,6 +134,7 @@ func discoverLocalIp() (localIp string, err error) {
 
 func invokeEtcd(tranformedArgs []string) error {
 
+	log.Printf("Invoking etcd with transformed args: %v", tranformedArgs)
 	cmd := exec.Command("etcd", tranformedArgs...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr

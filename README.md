@@ -1,4 +1,4 @@
-Etcd-with-discovery is a wrapper around [etcd](https://github.com/coreos/etcd), with some discovery-related additions that calls etcd with the right *advertising* related URLs.
+A wrapper around [etcd](https://github.com/coreos/etcd), with some discovery-related additions that calls etcd with the right *advertising* related URLs.
 
 ## The problem this is trying to solve
 
