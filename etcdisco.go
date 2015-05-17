@@ -30,18 +30,19 @@ func RunWrappedEtcd() {
 	// discover the bindings between variables and their
 	// actual values (will be a map with things like local-ip -> 10.1.50.5)
 	bindings, err := discoverBindings()
+	log.Printf("Discovered bindings: %+v", bindings)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// get a slice with post-transformation arguments
-	tranformedArgs, err := tranformArgs(args, bindings)
+	transformedArgs, err := tranformArgs(args, bindings)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// invoke etcd with transformed arguments
-	err = invokeEtcd(tranformedArgs)
+	err = invokeEtcd(transformedArgs)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -49,13 +50,17 @@ func RunWrappedEtcd() {
 }
 
 func tranformArgs(args []string, bindings map[string]string) (transformed []string, err error) {
+
+	log.Printf("transform args called with args: %v bindings: %v", args, bindings)
 	// loop over args
 	for _, arg := range args {
 
 		// loop over bindings
 		for bindingKey, bindingVal := range bindings {
 			// does the argument contain bindingKey?
+			log.Printf("does %v contain %v?", arg, bindingKey)
 			if strings.Contains(arg, bindingKey) {
+				log.Printf("yes, %v contain %v", arg, bindingKey)
 				// perform transformation
 				transformedArg, err := transformArg(arg, bindingKey, bindingVal)
 				if err != nil {
@@ -66,12 +71,14 @@ func tranformArgs(args []string, bindings map[string]string) (transformed []stri
 				transformed = append(transformed, transformedArg)
 
 			} else {
+				log.Printf("no, %v does not contain %v", arg, bindingKey)
 				// no transformation necessary, just add it to output slice
 				transformed = append(transformed, arg)
 			}
 		}
 
 	}
+	log.Printf("transform args returning: %v", transformed)
 
 	return transformed, nil
 }
@@ -132,10 +139,10 @@ func discoverLocalIp() (localIp string, err error) {
 
 }
 
-func invokeEtcd(tranformedArgs []string) error {
+func invokeEtcd(transformedArgs []string) error {
 
-	log.Printf("Invoking etcd with transformed args: %v", tranformedArgs)
-	cmd := exec.Command("etcd", tranformedArgs...)
+	log.Printf("Invoking etcd with transformed args: %v", transformedArgs)
+	cmd := exec.Command("etcd", transformedArgs...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	err := cmd.Start()

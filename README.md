@@ -17,13 +17,13 @@ $ etcd -listen-client-urls http://0.0.0.0:2379 -advertise-client-urls http://10.
 You would instead run:
 
 ```
-$ etcdisco -listen-client-urls http://0.0.0.0:2379 -advertise-client-urls http://{{ .LOCAL_IP }}:2379
+$ etcdisco -listen-client-urls http://0.0.0.0:2379 -advertise-client-urls http://{{.LOCAL_IP}}:2379
 ```
 
 This would have the effect of:
 
 * etcdisco would attempt to discover the ip it should be advertising
-* it will look over the command line args and replace `{{ .LOCAL_IP }}` with the discovered ip address
+* it will look over the command line args and replace `{{.LOCAL_IP}}` with the discovered ip address
 * it will invoke etcd with the modified command line args
 
 
