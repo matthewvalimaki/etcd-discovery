@@ -1,0 +1,1 @@
+docker run --rm -it --name etcd-discovery tleyden5iwx/etcd-discovery
